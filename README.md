@@ -8,11 +8,8 @@ O projeto permite criar, listar e possivelmente atualizar e excluir tarefas. Ele
 
 ## Pré-requisitos
 
-Certifique-se de ter instalado:
-
 - Java 17 ou superior
 - Maven
-- Um IDE de sua preferência (IntelliJ IDEA, Eclipse, etc.)
 
 ## Como Executar
 
