@@ -1,10 +1,15 @@
 package br.com.lucasmafra.tarefas.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,31 +21,44 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "tarefa")
 public class Tarefa {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @NotBlank
+    @Size(min = 3, max = 100)
+    @Column(length = 100, nullable = false)
     private String title;
 
-    @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @NotNull
+    @FutureOrPresent
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(nullable = false)
     private LocalDate deadline;
 
-    @Column(nullable = false)
     private boolean finished;
 
-    @Column(nullable = false)
     private LocalDate fineshedAt;
 
+    public void TarefaFinalizada() {
+        this.finished = true;
+        this.fineshedAt = LocalDate.now();
+    }
+
     public Tarefa() {
-        this.createdAt = LocalDateTime.now();
         this.finished = false;
         this.fineshedAt = null;
     }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
 
 
 
