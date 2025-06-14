@@ -4,7 +4,7 @@ Este é um projeto Spring Boot simples para gerenciamento de tarefas.
 
 ## Visão Geral
 
-O projeto permite criar, listar e possivelmente atualizar e excluir tarefas. Ele usa Spring Boot, Spring Data JPA e um banco de dados embutido (pode ser H2, por exemplo) para persistência. O frontend é renderizado usando templates Thymeleaf.
+O projeto permite criar, listar e possivelmente atualizar e excluir tarefas. Ele usa Spring Boot, Spring Data JPA e um banco de dados embutido, H2, para persistência. O frontend é renderizado usando templates Thymeleaf.
 
 ## Pré-requisitos
 
