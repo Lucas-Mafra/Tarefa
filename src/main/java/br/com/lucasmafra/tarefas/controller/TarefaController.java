@@ -2,6 +2,7 @@ package br.com.lucasmafra.tarefas.controller;
 
 import br.com.lucasmafra.tarefas.model.Tarefa;
 import br.com.lucasmafra.tarefas.repository.TarefaRepository;
+import br.com.lucasmafra.tarefas.service.TarefaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -21,13 +22,13 @@ import java.util.Map;
 public class TarefaController {
 
     @Autowired
-    public TarefaRepository tarefaRepository;
+    public TarefaService tarefaService;
 
     @GetMapping("/")
     public ModelAndView listar() {
         return new ModelAndView(
                 "tarefas/listar",
-                Map.of("tarefas", tarefaRepository.findAll(Sort.by("deadline")))
+                Map.of("tarefas", tarefaService.listarTarefas(Sort.by("deadline")))
         );
     }
 
@@ -41,18 +42,14 @@ public class TarefaController {
         if (result.hasErrors())
             return "tarefas/formulario";
 
-        tarefaRepository.save(tarefa);
+        tarefaService.criar(tarefa);
         return "redirect:/";
     }
 
     @GetMapping("/editar/{id}")
     public ModelAndView editar(@PathVariable Long id) {
-        var tarefa = tarefaRepository.findById(id);
-        // Se a tarefa não for encontrada, retorna um erro 404
-        if (tarefa.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
-        return new ModelAndView("tarefas/formulario", Map.of("tarefa", tarefa.get()));
+        var tarefa = tarefaService.encontrarPorId(id);
+        return new ModelAndView("tarefas/formulario", Map.of("tarefa", tarefa));
     }
 
     @PostMapping("/editar/{id}")
@@ -60,33 +57,25 @@ public class TarefaController {
         if (result.hasErrors())
             return "tarefas/formulario";
 
-        tarefaRepository.save(tarefa);
+        tarefaService.atualizar(tarefa);
         return "redirect:/";
     }
 
     @GetMapping("/excluir/{id}")
     public ModelAndView excluir(@PathVariable Long id) {
-        var tarefa = tarefaRepository.findById(id);
-        if(tarefa.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return new ModelAndView("tarefas/excluir", Map.of("tarefa", tarefa.get()));
+        var tarefa = tarefaService.encontrarPorId(id);
+        return new ModelAndView("tarefas/excluir", Map.of("tarefa", tarefa));
     }
 
     @PostMapping("/excluir/{id}")
     public String excluir(Tarefa tarefa) {
-        tarefaRepository.delete(tarefa);
+        tarefaService.excluir(tarefa.getId());
         return "redirect:/";
     }
 
     @PostMapping("/finalizar/{id}")
     public String finalizar(@PathVariable Long id) {
-        var tarefa = tarefaRepository.findById(id);
-        if (tarefa.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        tarefa.get().TarefaFinalizada();
-        tarefaRepository.save(tarefa.get());
+        tarefaService.finalizar(id);
         return "redirect:/";
     }
 

@@ -44,7 +44,7 @@ public class Tarefa {
 
     private LocalDate fineshedAt;
 
-    public void TarefaFinalizada() {
+    public void tarefaFinalizada() {
         this.finished = true;
         this.fineshedAt = LocalDate.now();
     }
