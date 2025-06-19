@@ -36,4 +36,6 @@ build/
 ### H2 ###
 h2-database.mv.db
 h2-database.trace.db
-src/main/resources/application.properties
+
+## Java ###
+/src/main/resources/application.properties
