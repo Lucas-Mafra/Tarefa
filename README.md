@@ -72,8 +72,7 @@ Certifique-se de ter instalado:
 
 - Adicionar autenticação e autorização.
 - Implementar testes unitários e de integração.
-- Melhorar a interface do usuário.
-- Adicionar suporte a bancos de dados externos (MySQL, PostgreSQL, etc.).
+
 
 ## Contribuição
 

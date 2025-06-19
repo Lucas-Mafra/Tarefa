@@ -1,22 +1,19 @@
 package br.com.lucasmafra.tarefas.controller;
 
-import br.com.lucasmafra.tarefas.model.Tarefa;
-import br.com.lucasmafra.tarefas.repository.TarefaRepository;
-import br.com.lucasmafra.tarefas.service.TarefaService;
-import jakarta.validation.Valid;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
+import br.com.lucasmafra.tarefas.model.Tarefa;
+import br.com.lucasmafra.tarefas.service.TarefaService;
+import jakarta.validation.Valid;
 
 @Controller
 public class TarefaController {
