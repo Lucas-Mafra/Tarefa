@@ -3,7 +3,7 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-application.properties
+
 
 ### STS ###
 .apt_generated
@@ -36,3 +36,4 @@ build/
 ### H2 ###
 h2-database.mv.db
 h2-database.trace.db
+src/main/resources/application.properties
