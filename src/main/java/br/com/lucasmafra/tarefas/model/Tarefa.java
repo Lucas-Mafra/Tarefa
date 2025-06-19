@@ -59,7 +59,4 @@ public class Tarefa {
         this.createdAt = LocalDateTime.now();
     }
 
-
-
-
 }
