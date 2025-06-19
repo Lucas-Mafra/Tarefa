@@ -73,6 +73,23 @@ Certifique-se de ter instalado:
 - Adicionar autenticação e autorização.
 - Implementar testes unitários e de integração.
 
+## Capturas de Tela
+
+Veja abaixo exemplos da interface do sistema:
+
+| Lista de Tarefas | Cadastro de Tarefa |
+|:----------------:|:------------------:|
+| ![Lista de Tarefas](docs/screeshot/ListaTarefas.png) | ![Cadastro de Tarefa](docs/screeshot/Cadastro.png) |
+
+
+
+## Referências
+
+- [Documentação Spring Boot](https://spring.io/projects/spring-boot)
+- [Guia Thymeleaf](https://www.thymeleaf.org/documentation.html)
+- [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
+- [Bootstrap](https://getbootstrap.com/)
+- [H2 Database](https://www.h2database.com/html/main.html)
 
 ## Contribuição
 
