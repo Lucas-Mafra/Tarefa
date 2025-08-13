@@ -1,4 +1,4 @@
-package br.com.lucasmafra.tarefas.Utils;
+package br.com.lucasmafra.tarefas.utils;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;

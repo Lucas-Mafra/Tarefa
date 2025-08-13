@@ -1,6 +1,6 @@
 package br.com.lucasmafra.tarefas.service;
 
-import br.com.lucasmafra.tarefas.Utils.BeanUtilsHelper;
+import br.com.lucasmafra.tarefas.utils.BeanUtilsHelper;
 import br.com.lucasmafra.tarefas.model.Tarefa;
 import br.com.lucasmafra.tarefas.repository.TarefaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class TarefaServiceImpl implements TarefaService {
@@ -29,7 +29,7 @@ public class TarefaServiceImpl implements TarefaService {
     }
 
     @Override
-    public Iterable<Tarefa> getTarefas() {
+    public List<Tarefa> getTarefas() {
         return tarefaRepository.findAll();
     }
 
