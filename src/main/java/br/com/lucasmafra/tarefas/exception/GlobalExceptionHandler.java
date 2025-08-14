@@ -28,9 +28,9 @@ public class GlobalExceptionHandler {
         if (ex.getCause() instanceof InvalidFormatException invalidFormatEx) {
             String fieldName = invalidFormatEx.getPath().get(0).getFieldName();
             String targetType = invalidFormatEx.getTargetType().getSimpleName();
-            errors.put(fieldName, "Formato inválido para " + targetType + ". Corrija o valor.");
+            errors.put(fieldName, "Invalid format for " + targetType + ". Correct the value.");
         } else {
-            errors.put("error", "JSON inválido ou campos incorretos: " + ex.getMessage());
+            errors.put("error", "Invalid JSON or incorrect fields: " + ex.getMessage());
         }
 
         return ResponseEntity.badRequest().body(errors);

@@ -1,65 +1,99 @@
 package br.com.lucasmafra.tarefas.controller;
 
 import java.util.List;
-import java.util.Map;
-
-import br.com.lucasmafra.tarefas.service.TarefaServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import br.com.lucasmafra.tarefas.model.Tarefa;
 import br.com.lucasmafra.tarefas.service.TarefaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/tarefas")
+@Tag(name = "Tarefa Controller", description = "This REST controller provides services to manage tasks in the Tarefas application")
 public class TarefaController {
 
     @Autowired
-    public TarefaService tarefaService;
+    private TarefaService tarefaService;
 
     @GetMapping
-    public ResponseEntity<List<Tarefa>>list(){
-        List<Tarefa> tarefasList = tarefaService.getTarefas();
-        return ResponseEntity.ok(tarefasList);
+    @Operation(summary = "List all tasks", description = "Provide all tasks available in the Tarefa application")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved list of tasks")
+    })
+    public ResponseEntity<List<Tarefa>> list() {
+        return ResponseEntity.ok(tarefaService.getTarefas());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tarefa> getTarefaById(@PathVariable Long id){
-        var tarefa = tarefaService.getTarefaById(id);
-        return ResponseEntity.ok(tarefa);
+    @Operation(summary = "Get task by ID", description = "Provide task details for the supplied task ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved task"),
+            @ApiResponse(responseCode = "404", description = "Task not found")
+    })
+    public ResponseEntity<Tarefa> getTarefaById(
+            @Parameter(description = "ID of the task to retrieve", required = true)
+            @PathVariable Long id) {
+        return ResponseEntity.ok(tarefaService.getTarefaById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Tarefa> create(@Valid @RequestBody Tarefa tarefa){
+    @Operation(summary = "Create a new task", description = "Create a new task in the Tarefa application")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Task successfully created"),
+            @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
+    public ResponseEntity<Tarefa> create(
+            @Parameter(description = "Task object to be created", required = true)
+            @Valid @RequestBody Tarefa tarefa) {
         Tarefa newTarefa = tarefaService.createTarefa(tarefa);
         return ResponseEntity.status(HttpStatus.CREATED).body(newTarefa);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Tarefa> update(@PathVariable Long id, @Valid @RequestBody Tarefa tarefa){
+    @Operation(summary = "Update task by ID", description = "Updates the task details for the supplied task ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Task successfully updated"),
+            @ApiResponse(responseCode = "404", description = "Task not found"),
+            @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
+    public ResponseEntity<Tarefa> update(
+            @Parameter(description = "ID of the task to update", required = true)
+            @PathVariable Long id,
+            @Parameter(description = "Updated task object", required = true)
+            @Valid @RequestBody Tarefa tarefa) {
         tarefa.setId(id);
         tarefaService.updateTarefa(id, tarefa);
         return ResponseEntity.ok(tarefa);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Tarefa> delete(@PathVariable Long id){
+    @Operation(summary = "Delete task by ID", description = "Deletes the task details for the supplied task ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Task successfully deleted"),
+            @ApiResponse(responseCode = "404", description = "Task not found")
+    })
+    public ResponseEntity<Void> delete(
+            @Parameter(description = "ID of the task to delete", required = true)
+            @PathVariable Long id) {
         tarefaService.deleteTarefaById(id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteAll(){
+    @Operation(summary = "Delete all tasks", description = "Deletes all tasks from the Tarefa application")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "All tasks successfully deleted")
+    })
+    public ResponseEntity<Void> deleteAll() {
         tarefaService.deleteTarefas();
         return ResponseEntity.noContent().build();
     }
-
 }
