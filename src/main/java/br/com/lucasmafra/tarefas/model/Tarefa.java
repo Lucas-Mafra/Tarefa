@@ -30,6 +30,7 @@ public class Tarefa {
     @Column(length = 100, nullable = false)
     private String title;
 
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @NotNull
