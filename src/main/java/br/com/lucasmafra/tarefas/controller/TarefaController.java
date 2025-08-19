@@ -2,7 +2,9 @@ package br.com.lucasmafra.tarefas.controller;
 
 import java.util.List;
 
-import br.com.lucasmafra.tarefas.model.Tarefa;
+import br.com.lucasmafra.tarefas.dto.tarefa.CreateTarefaDTO;
+import br.com.lucasmafra.tarefas.dto.tarefa.UpdateTarefaDTO;
+import br.com.lucasmafra.tarefas.dto.tarefa.TarefaResponseDTO;
 import br.com.lucasmafra.tarefas.service.TarefaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,7 +30,7 @@ public class TarefaController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list of tasks")
     })
-    public ResponseEntity<List<Tarefa>> list() {
+    public ResponseEntity<List<TarefaResponseDTO>> list() {
         return ResponseEntity.ok(tarefaService.getTarefas());
     }
 
@@ -38,7 +40,7 @@ public class TarefaController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved task"),
             @ApiResponse(responseCode = "404", description = "Task not found")
     })
-    public ResponseEntity<Tarefa> getTarefaById(
+    public ResponseEntity<TarefaResponseDTO> getTarefaById(
             @Parameter(description = "ID of the task to retrieve", required = true)
             @PathVariable Long id) {
         return ResponseEntity.ok(tarefaService.getTarefaById(id));
@@ -50,10 +52,10 @@ public class TarefaController {
             @ApiResponse(responseCode = "201", description = "Task successfully created"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    public ResponseEntity<Tarefa> create(
+    public ResponseEntity<TarefaResponseDTO> create(
             @Parameter(description = "Task object to be created", required = true)
-            @Valid @RequestBody Tarefa tarefa) {
-        Tarefa newTarefa = tarefaService.createTarefa(tarefa);
+            @Valid @RequestBody CreateTarefaDTO dto) {
+        TarefaResponseDTO newTarefa = tarefaService.createTarefa(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newTarefa);
     }
 
@@ -64,14 +66,13 @@ public class TarefaController {
             @ApiResponse(responseCode = "404", description = "Task not found"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    public ResponseEntity<Tarefa> update(
+    public ResponseEntity<TarefaResponseDTO> update(
             @Parameter(description = "ID of the task to update", required = true)
             @PathVariable Long id,
             @Parameter(description = "Updated task object", required = true)
-            @Valid @RequestBody Tarefa tarefa) {
-        tarefa.setId(id);
-        tarefaService.updateTarefa(id, tarefa);
-        return ResponseEntity.ok(tarefa);
+            @Valid @RequestBody UpdateTarefaDTO dto) {
+        TarefaResponseDTO updated = tarefaService.updateTarefa(id, dto);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
